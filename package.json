@@ -1,0 +1,21 @@
+{
+  "name": "nodd-metrics",
+  "version": "1.0.0",
+  "description": "metrics for noddapp api",
+  "main": "./dist/metrics.js",
+  "scripts": {
+    "start": "tsc -p . && node ./dist/metrics.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://codekidnodd@bitbucket.org/noddbackendteam/nodd-metrics.git"
+  },
+  "author": "Ashish Shekar",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/noddbackendteam/nodd-metrics#readme",
+  "dependencies": {
+    "@types/node": "^11.9.6",
+    "influx": "^5.0.7"
+  }
+}
