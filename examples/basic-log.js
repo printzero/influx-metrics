@@ -8,9 +8,6 @@ influx.init("testdb", () => {
     host: "local",
     message: "this is from metrics package",
     severity: log.Severity.INFO,
-    facility: "metrics-test",
-    severity_code: 1,
-    facility_code: 11,
-    version: 1.0
+
   })
 })
