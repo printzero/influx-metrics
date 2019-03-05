@@ -27,15 +27,17 @@ var Metrics = /** @class */ (function () {
             if (util_1.isUndefined(_this.defaultOptions[v])) {
                 switch (v) {
                     case "procId":
-                        _this.defaultOptions[v] = 999;
+                        _this.defaultOptions.procId = 999;
                         break;
                     case "facility":
-                        _this.defaultOptions[v] = "default";
+                        _this.defaultOptions.facility = "default";
                         break;
                     case "version":
                     case "severity_code":
                     case "facility_code":
-                        _this.defaultOptions[v] = 1;
+                        _this.defaultOptions.version = 1;
+                        _this.defaultOptions.severity_code = 1;
+                        _this.defaultOptions.facility_code = 1;
                         break;
                 }
             }

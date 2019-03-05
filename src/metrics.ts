@@ -1,7 +1,7 @@
 import { InfluxDB } from "influx"
 import { writeLog, Severity } from "./models/log"
 import { isUndefined } from "util"
-import { Drafter } from "./drafter";
+import { Drafter } from "./drafter"
 
 export interface IMetricsOption {
   host: string
@@ -14,13 +14,11 @@ export interface IMetricsOption {
 }
 
 export class Metrics {
-  
   public client: InfluxDB
   public drafter: Drafter
-  
+
   private db: string = ""
   private defaultOptions: IMetricsOption
-
 
   constructor(db: string, options: IMetricsOption) {
     this.db = db
@@ -45,15 +43,17 @@ export class Metrics {
       if (isUndefined((<any>this.defaultOptions)[v])) {
         switch (v) {
           case "procId":
-            this.defaultOptions[v] = 999
+            this.defaultOptions.procId = 999
             break
           case "facility":
-            this.defaultOptions[v] = "default"
+            this.defaultOptions.facility = "default"
             break
           case "version":
           case "severity_code":
           case "facility_code":
-            this.defaultOptions[v] = 1
+            this.defaultOptions.version = 1
+            this.defaultOptions.severity_code = 1
+            this.defaultOptions.facility_code = 1
             break
         }
       }
