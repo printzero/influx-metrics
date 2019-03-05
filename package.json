@@ -1,7 +1,7 @@
 {
   "name": "influx-metrics",
   "version": "1.0.0",
-  "description": "metrics for noddapp api",
+  "description": "Minimal wrapper around influx-client for TICK stack",
   "main": "./dist/metrics.js",
   "scripts": {
     "start": "tsc -p . && node ./dist/metrics.js",
