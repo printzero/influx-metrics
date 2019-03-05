@@ -57,7 +57,7 @@ export class Metrics {
       this.defaultOptions.severity_code = 1
     }
 
-    if (isUndefined(this.defaultOptions.procId)) {
+    if (isUndefined(this.defaultOptions.facility_code)) {
       this.defaultOptions.facility_code = 1
     }
   }

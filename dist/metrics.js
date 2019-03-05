@@ -35,7 +35,7 @@ var Metrics = /** @class */ (function () {
         if (util_1.isUndefined(this.defaultOptions.severity_code)) {
             this.defaultOptions.severity_code = 1;
         }
-        if (util_1.isUndefined(this.defaultOptions.procId)) {
+        if (util_1.isUndefined(this.defaultOptions.facility_code)) {
             this.defaultOptions.facility_code = 1;
         }
     };
