@@ -1,5 +1,5 @@
 {
-  "name": "nodd-metrics",
+  "name": "influx-metrics",
   "version": "1.0.0",
   "description": "metrics for noddapp api",
   "main": "./dist/metrics.js",
@@ -9,11 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://codekidnodd@bitbucket.org/noddbackendteam/nodd-metrics.git"
+    "url": "git+https://github.com/printzero/influx-metrics.git"
   },
   "author": "Ashish Shekar",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/noddbackendteam/nodd-metrics#readme",
+  "homepage": "https://github.com/printzero/influx-metrics/blob/master/README.md",
   "dependencies": {
     "@types/node": "^11.9.6",
     "influx": "^5.0.7"
