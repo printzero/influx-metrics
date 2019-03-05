@@ -15,18 +15,13 @@ export class Drafter {
    * @param measurement name of the measurement
    * @param point point that
    */
-  public async record<T extends IPoint>(measurement: string, point: T) {
-    let datas = await this.client.getMeasurements()
-    if (!datas.includes(measurement)) {
-      this.client.writeMeasurement(measurement, [
-        {
-          fields: point.fields,
-          tags: point.tags
-        }
-      ])
-    } else {
-      this.client.writePoints([point])
-    }
+  public record<T extends IPoint>(measurement: string, point: T) {
+    this.client.writeMeasurement(measurement, [
+      {
+        fields: point.fields,
+        tags: point.tags
+      }
+    ])
   }
 }
 
@@ -68,19 +63,14 @@ class Recorder {
     //  ==> a check for routine function is not required bcoz
     // each() saves interval ; if interval is not there then so is
     // routineFunc
-    setTimeout(async () => {
+    setTimeout(() => {
       let point = this.routineFunc!()
-      let datas = await this.client.getMeasurements()
-      if (!datas.includes(this.measurement)) {
-        this.client.writeMeasurement(this.measurement, [
-          {
-            fields: point.fields,
-            tags: point.tags
-          }
-        ])
-      } else {
-        this.client.writePoints([point])
-      }
+      this.client.writeMeasurement(this.measurement, [
+        {
+          fields: point.fields,
+          tags: point.tags
+        }
+      ])
     }, this.interval)
   }
 }

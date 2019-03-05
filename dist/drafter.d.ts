@@ -9,5 +9,5 @@ export declare class Drafter {
      * @param measurement name of the measurement
      * @param point point that
      */
-    record<T extends IPoint>(measurement: string, point: T): Promise<void>;
+    record<T extends IPoint>(measurement: string, point: T): void;
 }
