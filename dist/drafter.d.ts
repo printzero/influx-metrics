@@ -1,12 +1,4 @@
-import { InfluxDB } from "influx";
-export interface INoddPoint {
-    fields: {
-        string: any;
-    };
-    tags: {
-        string: string;
-    };
-}
+import { InfluxDB, IPoint } from "influx";
 export declare class Drafter {
     private client;
     private recorder;
@@ -17,5 +9,5 @@ export declare class Drafter {
      * @param measurement name of the measurement
      * @param point point that
      */
-    record<T extends INoddPoint>(measurement: string, point: T): Promise<void>;
+    record<T extends IPoint>(measurement: string, point: T): Promise<void>;
 }

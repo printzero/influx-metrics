@@ -1,11 +1,4 @@
-import {
-  InfluxDB,
-} from "influx"
-
-export interface INoddPoint {
-  fields: { string: any }
-  tags: { string: string }
-}
+import { InfluxDB, IPoint } from "influx"
 
 export class Drafter {
   private client: InfluxDB
@@ -18,11 +11,11 @@ export class Drafter {
 
   /**
    * records the point that forces it to keep it as a noddpoint interface
-   * 
+   *
    * @param measurement name of the measurement
    * @param point point that
    */
-  public async record<T extends INoddPoint>(measurement: string, point: T) {
+  public async record<T extends IPoint>(measurement: string, point: T) {
     let datas = await this.client.getMeasurements()
     if (!datas.includes(measurement)) {
       this.client.writeMeasurement(measurement, [
@@ -41,7 +34,7 @@ class Recorder {
   private client: InfluxDB
   private measurement = ""
   private interval = 0
-  private routineFunc: (() => INoddPoint) | undefined
+  private routineFunc: (() => IPoint) | undefined
 
   constructor(client: InfluxDB) {
     this.client = client
@@ -56,7 +49,7 @@ class Recorder {
     return this
   }
 
-  public each(interval: number, pointFunc: () => INoddPoint) {
+  public each(interval: number, pointFunc: () => IPoint) {
     this.interval = interval
     this.routineFunc = pointFunc
     return this
