@@ -39,26 +39,27 @@ export class Metrics {
    * are set to default values
    */
   private ensureOptions() {
-    Object.keys(this.defaultOptions).forEach((v, i, array) => {
-      if (isUndefined((<any>this.defaultOptions)[v])) {
-        switch (v) {
-          case "procId":
-            this.defaultOptions.procId = 999
-            break
-          case "facility":
-            this.defaultOptions.facility = "default"
-            break
-          case "version":
-          case "severity_code":
-          case "facility_code":
-            this.defaultOptions.version = 1
-            this.defaultOptions.severity_code = 1
-            this.defaultOptions.facility_code
-             = 1
-            break
-        }
-      }
-    })
+    // TODO: with object.keys method
+
+    if (isUndefined(this.defaultOptions.procId)) {
+      this.defaultOptions.procId = 999
+    }
+
+    if (isUndefined(this.defaultOptions.facility)) {
+      this.defaultOptions.facility = "default"
+    }
+
+    if (isUndefined(this.defaultOptions.version)) {
+      this.defaultOptions.version = 1
+    }
+
+    if (isUndefined(this.defaultOptions.severity_code)) {
+      this.defaultOptions.severity_code = 1
+    }
+
+    if (isUndefined(this.defaultOptions.procId)) {
+      this.defaultOptions.facility_code = 1
+    }
   }
 
   /**

@@ -22,27 +22,22 @@ var Metrics = /** @class */ (function () {
      * are set to default values
      */
     Metrics.prototype.ensureOptions = function () {
-        var _this = this;
-        Object.keys(this.defaultOptions).forEach(function (v, i, array) {
-            if (util_1.isUndefined(_this.defaultOptions[v])) {
-                switch (v) {
-                    case "procId":
-                        _this.defaultOptions.procId = 999;
-                        break;
-                    case "facility":
-                        _this.defaultOptions.facility = "default";
-                        break;
-                    case "version":
-                    case "severity_code":
-                    case "facility_code":
-                        _this.defaultOptions.version = 1;
-                        _this.defaultOptions.severity_code = 1;
-                        _this.defaultOptions.facility_code
-                            = 1;
-                        break;
-                }
-            }
-        });
+        // TODO: with object.keys method
+        if (util_1.isUndefined(this.defaultOptions.procId)) {
+            this.defaultOptions.procId = 999;
+        }
+        if (util_1.isUndefined(this.defaultOptions.facility)) {
+            this.defaultOptions.facility = "default";
+        }
+        if (util_1.isUndefined(this.defaultOptions.version)) {
+            this.defaultOptions.version = 1;
+        }
+        if (util_1.isUndefined(this.defaultOptions.severity_code)) {
+            this.defaultOptions.severity_code = 1;
+        }
+        if (util_1.isUndefined(this.defaultOptions.procId)) {
+            this.defaultOptions.facility_code = 1;
+        }
     };
     /**
      * Initialize this.influx and post callback to onConnected
