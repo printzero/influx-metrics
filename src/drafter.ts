@@ -1,12 +1,6 @@
-import { Metrics } from "./metrics"
 import {
-  ISchemaOptions,
-  IPoint,
   InfluxDB,
-  ISingleHostConfig,
-  FieldType
 } from "influx"
-import { isUndefined } from "util"
 
 export interface INoddPoint {
   fields: { string: any }
