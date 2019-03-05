@@ -27,22 +27,22 @@ exports.LogSchemaOption = {
 function queryLogsByDate(timestamp) { }
 exports.queryLogsByDate = queryLogsByDate;
 /** @internal */
-function writeLog(client, db, input) {
+function writeLog(client, appname, message, severity, options) {
     client.writeMeasurement(lookup_1.measurement.syslog, [
         {
             fields: {
-                facility_code: input.facility_code == undefined ? 0 : input.facility_code,
-                severity_code: input.severity_code ? 0 : input.severity_code,
-                message: input.message,
+                facility_code: options.facility_code,
+                severity_code: options.severity_code,
+                message: message,
                 timestamp: Date.now(),
-                procid: input.procId,
-                version: input.version
+                procid: options.procId,
+                version: options.version
             },
             tags: {
-                appname: db,
-                severity: input.severity,
-                facility: input.facility == undefined ? "server" : input.facility,
-                host: input.host,
+                appname: appname,
+                severity: severity,
+                facility: options.facility,
+                host: options.host,
                 hostname: os.hostname()
             }
         }

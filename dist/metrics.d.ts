@@ -1,15 +1,18 @@
-import { ILogMeasurement } from "./models/log";
+import { InfluxDB } from "influx";
+import { Severity } from "./models/log";
+import { Drafter } from "./drafter";
 export interface IMetricsOption {
     host: string;
+    facility: string;
     procId?: number;
-    facility?: string;
     severity_code?: number;
     facility_code?: number;
     version?: number;
     onConnected?: () => void;
 }
 export declare class Metrics {
-    private influx;
+    client: InfluxDB;
+    drafter: Drafter;
     private db;
     private defaultOptions;
     constructor(db: string, options: IMetricsOption);
@@ -24,5 +27,5 @@ export declare class Metrics {
      * @param onConnected callback for when influx db connection is initialized
      */
     private initDb;
-    log(measurement: ILogMeasurement): void;
+    log(message: string, severity: Severity): void;
 }

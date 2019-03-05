@@ -3,15 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var influx_1 = require("influx");
 var log_1 = require("./models/log");
 var util_1 = require("util");
+var drafter_1 = require("./drafter");
 var Metrics = /** @class */ (function () {
     function Metrics(db, options) {
         this.db = "";
         this.db = db;
         this.defaultOptions = options;
-        this.influx = new influx_1.InfluxDB({
+        this.client = new influx_1.InfluxDB({
             database: this.db,
             host: this.defaultOptions.host
         });
+        this.drafter = new drafter_1.Drafter(this.client);
         this.ensureOptions();
         this.initDb(options.onConnected);
     }
@@ -46,11 +48,11 @@ var Metrics = /** @class */ (function () {
      */
     Metrics.prototype.initDb = function (onConnected) {
         var _this = this;
-        this.influx
+        this.client
             .getDatabaseNames()
             .then(function (dbs) {
             if (!dbs.includes(_this.db)) {
-                _this.influx.createDatabase(_this.db);
+                _this.client.createDatabase(_this.db);
             }
             if (!util_1.isUndefined(onConnected)) {
                 onConnected();
@@ -58,8 +60,8 @@ var Metrics = /** @class */ (function () {
         })
             .catch(function (e) { return console.error(e); });
     };
-    Metrics.prototype.log = function (measurement) {
-        log_1.writeLog(this.influx, this.db, measurement);
+    Metrics.prototype.log = function (message, severity) {
+        log_1.writeLog(this.client, this.db, message, severity, this.defaultOptions);
     };
     return Metrics;
 }());
