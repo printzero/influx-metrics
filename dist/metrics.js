@@ -23,7 +23,7 @@ var Metrics = /** @class */ (function () {
      */
     Metrics.prototype.ensureOptions = function () {
         var _this = this;
-        Object.keys(this.defaultOptions).map(function (v, i, array) {
+        Object.keys(this.defaultOptions).forEach(function (v, i, array) {
             if (util_1.isUndefined(_this.defaultOptions[v])) {
                 switch (v) {
                     case "procId":
@@ -37,7 +37,8 @@ var Metrics = /** @class */ (function () {
                     case "facility_code":
                         _this.defaultOptions.version = 1;
                         _this.defaultOptions.severity_code = 1;
-                        _this.defaultOptions.facility_code = 1;
+                        _this.defaultOptions.facility_code
+                            = 1;
                         break;
                 }
             }

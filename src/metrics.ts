@@ -39,7 +39,7 @@ export class Metrics {
    * are set to default values
    */
   private ensureOptions() {
-    Object.keys(this.defaultOptions).map((v, i, array) => {
+    Object.keys(this.defaultOptions).forEach((v, i, array) => {
       if (isUndefined((<any>this.defaultOptions)[v])) {
         switch (v) {
           case "procId":
@@ -53,7 +53,8 @@ export class Metrics {
           case "facility_code":
             this.defaultOptions.version = 1
             this.defaultOptions.severity_code = 1
-            this.defaultOptions.facility_code = 1
+            this.defaultOptions.facility_code
+             = 1
             break
         }
       }
