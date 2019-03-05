@@ -1,4 +1,3 @@
-import { InfluxDB } from "influx";
 import { Severity } from "./models/log";
 import { Drafter } from "./drafter";
 export interface IMetricsOption {
@@ -11,7 +10,7 @@ export interface IMetricsOption {
     onConnected?: () => void;
 }
 export declare class Metrics {
-    client: InfluxDB;
+    private client;
     drafter: Drafter;
     private db;
     private defaultOptions;

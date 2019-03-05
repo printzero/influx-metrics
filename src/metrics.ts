@@ -14,7 +14,7 @@ export interface IMetricsOption {
 }
 
 export class Metrics {
-  public client: InfluxDB
+  private client: InfluxDB
   public drafter: Drafter
 
   private db: string = ""
