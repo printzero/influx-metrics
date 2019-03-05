@@ -1,11 +1,12 @@
 import { InfluxDB } from "influx"
-import { writeLog, ILogMeasurement } from "./models/log"
+import { writeLog, Severity } from "./models/log"
 import { isUndefined } from "util"
+import { Drafter } from "./drafter";
 
 export interface IMetricsOption {
   host: string
+  facility: string
   procId?: number
-  facility?: string
   severity_code?: number
   facility_code?: number
   version?: number
@@ -13,17 +14,23 @@ export interface IMetricsOption {
 }
 
 export class Metrics {
-  private influx: InfluxDB
+  
+  public client: InfluxDB
+  public drafter: Drafter
+  
   private db: string = ""
   private defaultOptions: IMetricsOption
+
 
   constructor(db: string, options: IMetricsOption) {
     this.db = db
     this.defaultOptions = options
-    this.influx = new InfluxDB({
+    this.client = new InfluxDB({
       database: this.db,
       host: this.defaultOptions.host
     })
+
+    this.drafter = new Drafter(this.client)
 
     this.ensureOptions()
     this.initDb(options.onConnected)
@@ -59,11 +66,11 @@ export class Metrics {
    * @param onConnected callback for when influx db connection is initialized
    */
   private initDb(onConnected?: () => void) {
-    this.influx
+    this.client
       .getDatabaseNames()
       .then(dbs => {
         if (!dbs.includes(this.db)) {
-          this.influx.createDatabase(this.db)
+          this.client.createDatabase(this.db)
         }
 
         if (!isUndefined(onConnected)) {
@@ -73,7 +80,7 @@ export class Metrics {
       .catch(e => console.error(e))
   }
 
-  public log(measurement: ILogMeasurement) {
-    writeLog(this.influx!, this.db, measurement)
+  public log(message: string, severity: Severity) {
+    writeLog(this.client, this.db, message, severity, this.defaultOptions)
   }
 }

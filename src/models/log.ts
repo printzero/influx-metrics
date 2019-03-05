@@ -1,6 +1,7 @@
 import * as os from "os"
 import { ISchemaOptions, FieldType, InfluxDB } from "influx"
 import { measurement } from "../lookup"
+import { IMetricsOption } from "../metrics"
 
 /** @internal */
 export const LogSchemaOption: ISchemaOptions = {
@@ -20,38 +21,32 @@ export const LogSchemaOption: ISchemaOptions = {
 export function queryLogsByDate(timestamp: number) {}
 
 /** @internal */
-export function writeLog(client: InfluxDB, db: string, input: ILogMeasurement) {
+export function writeLog(
+  client: InfluxDB,
+  appname: string,
+  message: string,
+  severity: Severity,
+  options: IMetricsOption
+) {
   client.writeMeasurement(measurement.syslog, [
     {
       fields: {
-        facility_code:
-          input.facility_code == undefined ? 0 : input.facility_code,
-        severity_code: input.severity_code ? 0 : input.severity_code,
-        message: input.message,
+        facility_code: options.facility_code,
+        severity_code: options.severity_code,
+        message,
         timestamp: Date.now(),
-        procid: input.procId,
-        version: input.version
+        procid: options.procId,
+        version: options.version
       },
       tags: {
-        appname: db,
-        severity: input.severity,
-        facility: input.facility == undefined ? "server" : input.facility,
-        host: input.host,
+        appname,
+        severity,
+        facility: options.facility,
+        host: options.host,
         hostname: os.hostname()
       }
     }
   ])
-}
-
-export interface ILogMeasurement {
-  procId: number
-  host: string
-  message: string
-  severity: Severity
-  severity_code?: number
-  facility?: string
-  facility_code?: number
-  version: number
 }
 
 export enum Severity {
