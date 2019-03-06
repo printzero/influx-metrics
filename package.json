@@ -15,9 +15,11 @@
   "license": "ISC",
   "homepage": "https://github.com/printzero/influx-metrics/blob/master/README.md",
   "dependencies": {
+    "express": "^4.16.4",
     "influx": "^5.0.7"
   },
   "devDependencies": {
+    "@types/express": "^4.16.1",
     "@types/node": "^11.10.4"
   }
 }
