@@ -15,8 +15,8 @@ export class Drafter {
    * @param measurement name of the measurement
    * @param point point that
    */
-  public record<T extends IPoint>(measurement: string, point: T) {
-    this.client.writeMeasurement(measurement, [
+  public async record<T extends IPoint>(measurement: string, point: T) {
+    await this.client.writeMeasurement(measurement, [
       {
         fields: point.fields,
         tags: point.tags
