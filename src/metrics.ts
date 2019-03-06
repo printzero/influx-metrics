@@ -2,6 +2,8 @@ import { InfluxDB } from "influx"
 import { writeLog, Severity } from "./models/log"
 import { isUndefined } from "util"
 import { Drafter } from "./drafter"
+import { Request, Response, NextFunction } from "express"
+import * as Middlewares from "./middlewares/express"
 
 export interface IMetricsOption {
   host: string
@@ -32,6 +34,12 @@ export class Metrics {
 
     this.ensureOptions()
     this.initDb(options.onConnected)
+  }
+
+  public express(req: Request, res: Response, next: NextFunction) {
+    let e = new Middlewares.Express()
+    e.express(req, res)
+    next()
   }
 
   /**
