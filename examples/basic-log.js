@@ -1,13 +1,10 @@
 const metrics = require("../dist/metrics")
-const log = require("../dist/models/log")
+const Severity = require("../dist/models/log").Severity
 
-let influx = new metrics.Metrics()
-influx.init("testdb", () => {
-  influx.log({
-    procId: 11,
-    host: "local",
-    message: "this is from metrics package",
-    severity: log.Severity.INFO,
-
-  })
+let influx = new metrics.Metrics("testdb", {
+  host: "localhost",
+  facility: "console",
+  procId: 1
 })
+
+influx.log("this is a test message", Severity.INFO)
