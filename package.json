@@ -1,6 +1,6 @@
 {
   "name": "influx-metrics",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Minimal wrapper around influx-client for TICK stack",
   "main": "./dist/metrics.js",
   "scripts": {
