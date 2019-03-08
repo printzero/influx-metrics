@@ -1,9 +1,9 @@
-import { InfluxDB } from "influx"
+import { InfluxDB, IPoint } from "influx"
 import { writeLog, Severity } from "./models/log"
 import { isUndefined } from "util"
-import { Drafter } from "./drafter"
 import { Request, Response, NextFunction } from "express"
 import * as Middlewares from "./middlewares/express"
+import { Recorder } from "./recorder"
 
 export interface IMetricsOption {
   host: string
@@ -15,9 +15,12 @@ export interface IMetricsOption {
   onConnected?: () => void
 }
 
+interface IBook {
+  [tasks: string]: Recorder
+}
 export class Metrics {
   private client: InfluxDB
-  public drafter: Drafter
+  private book: IBook = {}
 
   private db: string = ""
   private defaultOptions: IMetricsOption
@@ -29,8 +32,6 @@ export class Metrics {
       database: this.db,
       host: this.defaultOptions.host
     })
-
-    this.drafter = new Drafter(this.client)
 
     this.ensureOptions()
     this.initDb(options.onConnected)
@@ -92,5 +93,34 @@ export class Metrics {
 
   public log(message: string, severity: Severity) {
     writeLog(this.client, this.db, message, severity, this.defaultOptions)
+  }
+
+  /**
+   * records the point that forces it to keep it as a noddpoint interface
+   *
+   * @param measurement name of the measurement
+   * @param point point that
+   */
+  public async record(measurement: string, point: IPoint) {
+    await this.client.writeMeasurement(measurement, [
+      {
+        fields: point.fields,
+        tags: point.tags
+      }
+    ])
+  }
+
+  public recordInterval(
+    measurement: string,
+    func: () => IPoint,
+    interval: number
+  ) {
+    let recorder = new Recorder(this.client, measurement)
+    this.book[measurement] = recorder
+    recorder.every(func, interval).startRecording()
+  }
+
+  public stopRecording(measurement: string) {
+    this.book[measurement].stop()
   }
 }
