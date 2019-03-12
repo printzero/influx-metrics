@@ -5,6 +5,8 @@ import { Request, Response, NextFunction } from "express"
 import * as Middlewares from "./middlewares/express"
 import { Recorder } from "./recorder"
 
+/// <reference path='./middlewares/express.ts'/>
+
 export interface IMetricsOption {
   host: string
   facility: string
@@ -20,6 +22,7 @@ interface IBook {
 }
 export class Metrics {
   private client: InfluxDB
+  // contains all the timer instance with measurement names
   private book: IBook = {}
 
   private db: string = ""
@@ -37,9 +40,8 @@ export class Metrics {
     this.initDb(options.onConnected)
   }
 
-  public express(req: Request, res: Response, next: NextFunction) {
-    let e = new Middlewares.Express()
-    e.express(req, res)
+  public express = (req: Request, res: Response, next: NextFunction) => {
+    new Middlewares.Express().express(req, res)
     next()
   }
 
@@ -115,6 +117,9 @@ export class Metrics {
     func: () => IPoint,
     interval: number
   ) {
+    if (Object.keys(this.book).includes(measurement)) {
+      throw new Error("Already recording measurement.")
+    }
     let recorder = new Recorder(this.client, measurement)
     this.book[measurement] = recorder
     recorder.every(func, interval).startRecording()
